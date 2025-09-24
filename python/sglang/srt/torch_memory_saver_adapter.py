@@ -61,7 +61,7 @@ class _TorchMemorySaverAdapterReal(TorchMemorySaverAdapter):
         return torch_memory_saver.configure_subprocess()
 
     def region(self, tag: str):
-        return _memory_saver.region(tag=tag)
+        return _memory_saver.region(tag=tag, enable_cpu_backup=True)
 
     def pause(self, tag: str):
         return _memory_saver.pause(tag=tag)
