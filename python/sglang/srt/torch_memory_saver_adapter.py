@@ -62,7 +62,6 @@ class _TorchMemorySaverAdapterReal(TorchMemorySaverAdapter):
 
     def region(self, tag: str):
         help(_memory_saver.region)
-        help(torch_memory_saver.__version__)
         return _memory_saver.region(tag=tag, enable_cpu_backup=True)
 
     def pause(self, tag: str):
