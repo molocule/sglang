@@ -776,7 +776,7 @@ class ModelRunner:
         monkey_patch_vllm_parallel_state()
         monkey_patch_isinstance_for_vllm_base_layer()
 
-        with self.memory_saver_adapter.region(GPU_MEMORY_TYPE_WEIGHTS):
+        with self.memory_saver_adapter.region(GPU_MEMORY_TYPE_WEIGHTS, enable_cpu_backup=True):
             self.model = get_model(
                 model_config=self.model_config,
                 load_config=self.load_config,
