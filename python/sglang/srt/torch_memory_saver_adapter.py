@@ -1,8 +1,6 @@
 import logging
-import threading
-import time
 from abc import ABC
-from contextlib import contextmanager, nullcontext
+from contextlib import contextmanager
 
 try:
     import torch_memory_saver
@@ -40,7 +38,7 @@ class TorchMemorySaverAdapter(ABC):
     def configure_subprocess(self):
         raise NotImplementedError
 
-    def region(self, tag: str, enable_cpu_backup: bool = False):
+    def region(self, tag: str):
         raise NotImplementedError
 
     def pause(self, tag: str):
@@ -60,9 +58,8 @@ class _TorchMemorySaverAdapterReal(TorchMemorySaverAdapter):
     def configure_subprocess(self):
         return torch_memory_saver.configure_subprocess()
 
-    def region(self, tag: str, enable_cpu_backup: bool = False):
-        help(_memory_saver.region)
-        return _memory_saver.region(tag=tag, enable_cpu_backup=enable_cpu_backup)
+    def region(self, tag: str):
+        return _memory_saver.region(tag=tag)
 
     def pause(self, tag: str):
         return _memory_saver.pause(tag=tag)
@@ -81,7 +78,7 @@ class _TorchMemorySaverAdapterNoop(TorchMemorySaverAdapter):
         yield
 
     @contextmanager
-    def region(self, tag: str, enable_cpu_backup: bool = False):
+    def region(self, tag: str):
         yield
 
     def pause(self, tag: str):
